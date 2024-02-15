@@ -22,7 +22,9 @@ CREATE TABLE factura (
     numeroFactura INT AUTO_INCREMENT PRIMARY KEY,
     fecha DATETIME NOT NULL,
     cliente_id INT,
-    FOREIGN KEY (cliente_id) REFERENCES cliente(id),
+    id_impuesto INT,
+    FOREIGN KEY (id_impuesto) REFERENCES Impuestos(id_impuesto),
+    FOREIGN KEY (cliente_id) REFERENCES cliente(id)
     INDEX idx_factura_cliente (cliente_id)
 );
 
@@ -38,25 +40,18 @@ CREATE TABLE item_factura (
     INDEX idx_item_factura_producto (producto_codigo)
 );
 
-CREATE TABLE impuesto_ref (
-    id_ref INT PRIMARY KEY,
-    periodo_fiscal DATE,
-    año DOUBLE,
-    porcentaje DOUBLE
-);
-ALTER TABLE impuesto_ref ADD COLUMN id_impuesto INT;
 
 CREATE TABLE impuestos (
     id_impuesto INT,
-    id_cliente INT,
+    id_producto INT,
     impuesto_pagado DOUBLE,
     valor_total DOUBLE,
-    id_ref INT,
-    FOREIGN KEY (id_ref) REFERENCES impuesto_ref(id_ref)
+    periodo_fiscal DATE,
+    aÃ±o DOUBLE,
+    porcentaje DOUBLE,,
+    FOREIGN KEY (id_producto) REFERENCES producto(codigo)
 );
-ALTER TABLE impuestos ADD COLUMN id_producto INT;
-ALTER TABLE impuestos ADD FOREIGN KEY (id_cliente)
-REFERENCES cliente(id);
+
 
 CREATE TABLE descuento (
     id_descuento INT AUTO_INCREMENT PRIMARY KEY,
